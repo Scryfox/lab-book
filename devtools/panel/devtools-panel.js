@@ -78,10 +78,21 @@ document.getElementById("button_network").addEventListener("click", () => {
 });
 
 async function logRequests() {
+  let harLog = await browser.devtools.network.getHAR();
+  console.log(`HAR version: ${harLog.version}`);
+  for (let entry of harLog.entries) {
+    console.log(entry.request.url);
+    console.log(entry.response.status);
+  }
+};
+
+/*
+async function logRequests() {
   let printString = "console.log('In logRequests');";
   let harLog = await browser.devtools.network.getHAR();
-  let harLogVersion = `Har version: ${harLog.version}`;
+  let harLogVersion = `${harLog.entries}`;
   let printHarLogVersion = `console.log( 'Harlog version is:${harLogVersion}');`
   browser.devtools.inspectedWindow.eval(printHarLogVersion).then(handleResult);
   browser.devtools.inspectedWindow.eval(printString);
 };
+*/
